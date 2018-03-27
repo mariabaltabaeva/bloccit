@@ -47,3 +47,7 @@ source 'https://rubygems.org'
  end
 
   gem 'bootstrap-sass'
+
+  group :development do
+    gem 'pry-rails'
+  end
