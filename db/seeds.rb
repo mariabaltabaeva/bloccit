@@ -19,9 +19,10 @@ end
 puts "#{Post.count}."
 Post.find_or_create_by!(title: "Title", body: "Body for my post")
 puts "#{Post.count}."
+p = Post.last
 
 puts "#{Comment.count}."
-Comment.find_or_create_by!(post: posts, body: "My comment")
+Comment.find_or_create_by!(post: p, body: "My comment")
 puts "#{Comment.count}."
 
 puts "Seed finished"
