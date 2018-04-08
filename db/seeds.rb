@@ -2,7 +2,7 @@ require 'random_data'
 
 Post.destroy_all
 Comment.destroy_all
-#Topic.destroy_all
+Topic.destroy_all
 
 15.times do
   Topic.create!(
@@ -21,7 +21,16 @@ topics = Topic.all
 end
 posts = Post.all
 
-# Create Comments
+50.times do
+  SponsoredPost.create!(
+    topic: topics.sample,
+    title: RandomData.random_sentence,
+    body: RandomData.random_paragraph,
+    price: RandomData.random_number
+  )
+end
+sponsored_posts = SponsoredPost.all
+
 100.times do
   Comment.create!(
     post: posts.sample,
@@ -43,3 +52,4 @@ puts "Seed finished"
 puts "#{Topic.count} topics created"
 puts "#{Post.count} posts created"
 puts "#{Comment.count} comments created"
+puts "#{SponsoredPost.count} sponsored posts created"
