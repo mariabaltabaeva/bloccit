@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+  belongs_to :topic
   has_many :comments, dependent: :destroy
 
   #after_create :check_for_spam
