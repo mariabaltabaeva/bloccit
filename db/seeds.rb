@@ -2,7 +2,7 @@ require 'random_data'
 
 Post.destroy_all
 Comment.destroy_all
-#Topic.destroy_all
+Topic.destroy_all
 
 5.times do
   User.create!(
@@ -31,7 +31,7 @@ topics = Topic.all
 end
 posts = Post.all
 
-# Create Comments
+
 100.times do
   Comment.create!(
     post: posts.sample,
@@ -48,9 +48,18 @@ end
 #puts "#{Comment.count}."
 #Comment.find_or_create_by!(post: p, body: "My comment")
 #puts "#{Comment.count}."
-user = User.first
- user.update_attributes!(
-   email: 'claire@bloc.com', # replace this with your personal email
+
+
+admin = User.create!(
+   name:     'Admin User',
+   email:    'admin@example.com',
+   password: 'helloworld',
+   role:     'admin'
+ )
+ 
+ member = User.create!(
+   name:     'Member User',
+   email:    'member@example.com',
    password: 'helloworld'
  )
 
