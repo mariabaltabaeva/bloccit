@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
-   before_action :require_sign_in, except: :show
-   before_action :authorize_user, except: [:show, :new, :create]
+  before_action :require_sign_in, except: :show
+  before_action :authorize_user, except: [:show, :new, :create]
+  before_action :authorize_moderator, only: [:create, :edit, :update]
 
   def show
     @post = Post.find(params[:id])
@@ -18,7 +19,7 @@ class PostsController < ApplicationController
 
     if @post.save
       flash[:notice] = "Post was saved."
-       redirect_to [@topic, @post]
+      redirect_to [@topic, @post]
     else
       flash.now[:alert] = "There was an error saving the post.Please try again."
       render :new
@@ -35,7 +36,7 @@ class PostsController < ApplicationController
 
     if @post.save
       flash[:notice] = "Post was updated."
-       redirect_to [@post.topic, @post]
+      redirect_to [@post.topic, @post]
     else
       flash.now[:alert] = "There was an error saving the post.Please try again."
       render :edit
@@ -46,7 +47,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     if @post.destroy
       flash[:notice] = "\"#{@post.title}\" was deleted successfully."
-       redirect_to @post.topic
+      redirect_to @post.topic
     else
       flash.now[:alert] = "There was an error deleting the post."
       render :show
@@ -59,10 +60,18 @@ class PostsController < ApplicationController
   end
 
   def authorize_user
-     post = Post.find(params[:id])
-     unless current_user == post.user || current_user.admin?
-       flash[:alert] = "You must be an admin to do that."
-       redirect_to [post.topic, post]
-     end
-   end
+    post = Post.find(params[:id])
+    unless current_user == post.user || current_user.admin?
+      flash[:alert] = "You must be an admin to do that."
+      redirect_to [post.topic, post]
+    end
+  end
+
+  def authorize_moderator
+    post = Post.find(params[:id])
+    unless current_user.admin?
+      flash[:alert] = "You must be an admin to do that."
+      redirect_to [post.topic, post]
+    end
+  end
 end
