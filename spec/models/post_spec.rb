@@ -8,6 +8,7 @@ RSpec.describe Post, type: :model do
   let(:topic) { Topic.create!(name: name, description: description) }
   let(:user) { User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "helloworld") }
   let(:post) { topic.posts.create!(title: title, body: body, user: user) }
+  let(:my_post) { topic.posts.create!(title: title, body: body, user: user) }
 
   it { is_expected.to have_many(:comments) }
   it { is_expected.to have_many(:votes) }
@@ -70,6 +71,14 @@ RSpec.describe Post, type: :model do
         old_rank = post.rank
         post.votes.create!(value: -1, user: user)
         expect(post.rank).to eq (old_rank - 1)
+      end
+    end
+
+    describe "callback" do
+      it "create vote for user who creates post" do
+        vote = my_post.votes.first
+        expect(vote.user).to eq(new_post.user)
+        expect(my_post.votes.size).to eq(1)
       end
     end
   end
