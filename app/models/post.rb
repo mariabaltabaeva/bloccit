@@ -25,15 +25,23 @@ class Post < ApplicationRecord
   end
 
   def update_rank
-      age_in_days = (created_at - Time.new(1970,1,1)) / 1.day.seconds
-      new_rank = points + age_in_days
-      update_attribute(:rank, new_rank)
-    end
-  #after_create :check_for_spam
+    age_in_days = (created_at - Time.new(1970,1,1)) / 1.day.seconds
+    new_rank = points + age_in_days
+    update_attribute(:rank, new_rank)
+  end
 
-  #def check_for_spam
-  #if self.id % 5 == 0
-  #self.update(title: "SPAM")
-  #end
-  #end
+  after_create :make_own_favorite
+
+  def make_own_favorite
+    Favorite.create(post: self, user: self.user)
+    FavoriteMailer.new_post(self).deliver_now
+  end
+#after_create :check_for_spam
+
+#def check_for_spam
+#if self.id % 5 == 0
+#self.update(title: "SPAM")
+#end
+#end
+
 end
