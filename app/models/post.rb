@@ -32,6 +32,7 @@ class Post < ApplicationRecord
 
   after_create :make_own_favorite
 
+  private
   def make_own_favorite
     Favorite.create(post: self, user: self.user)
     FavoriteMailer.new_post(self).deliver_now
