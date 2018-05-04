@@ -1,7 +1,9 @@
 module UsersHelper
-  def given_user(user)
-   if current_user != post.user || current_user != comment.user
-     flash[:notice] = "{user.name} has not submitted any posts yet."
+  def user_has_posts?(user)
+   user.posts.any?
    end
- end
+
+   def user_has_comments?(user)
+     user.comments.any?
+   end
 end

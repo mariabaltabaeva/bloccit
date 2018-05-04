@@ -10,6 +10,14 @@ RSpec.describe UsersController, type: :controller do
     }
   end
 
+  describe "GET show" do
+    it 'shows users favorite posts' do
+      @user = create(:user)
+      get :show, params: { id: @user.id }
+      expect(assigns(:favorite_posts)).to_not be_nil
+    end
+end
+
   describe "GET new" do
     it "returns http success" do
       expect(response).to have_http_status(:success)
@@ -64,7 +72,7 @@ RSpec.describe UsersController, type: :controller do
     before do
       post :create, params: { user:new_user_attributes }
     end
-    
+
     it "returns http success" do
       get :show, params: { id: factory_user.id }
       expect(response).to have_http_status(:success)
