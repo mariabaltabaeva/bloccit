@@ -2,4 +2,4 @@
 
 It is a Reddit replica to teach the fundamentals of web development and Rails.
  Made at [Bloc](http://bloc.io).
-[Bloccit].(https://dashboard.heroku.com/apps/still-cove-80237)
+[Bloccit](https://dashboard.heroku.com/apps/still-cove-80237).
