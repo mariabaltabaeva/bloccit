@@ -14,3 +14,22 @@
 //= require turbolinks
 //= require bootstrap
 //= require_tree .
+
+  document.addEventListener('turbolinks:load', function(){
+  var blocmetrics = {};
+  blocmetrics.report = function(eventName){
+  var event = {event: { name: eventName }};
+
+  var request = new XMLHttpRequest();
+
+  request.open("POST", "http://localhost:3000/api/events", true);
+
+  request.setRequestHeader('Content-Type', 'application/json');
+
+  request.send(JSON.stringify(event));
+}
+  var followMe = document.querySelector('.social-btn')
+  followMe.addEventListener('click', function(){
+    blocmetrics.report('click facebook link')
+  })
+});
